@@ -1,0 +1,10 @@
+# liveroom_manager
+A manager app for live rooms
+edit .env with:
+
+KALTURA_SERVICE_URL=
+#TEST
+KALTURA_ADMIN_SECRET=
+KALTURA_PARTNER_ID=
+KALTURA_USER_ID=
+LIVEROOM_SESSION_DURATION=86400
