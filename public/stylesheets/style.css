@@ -1,0 +1,117 @@
+html, body {
+  height: 100%;
+}
+
+body {
+  font-family: 'robotolight', 'Open Sans', 'Helvetica', 'Arial', sans-serif;
+  text-align: center;
+  padding: 0;
+  margin: 0;
+  font-weight: 300;
+}
+
+.heroimg {
+  width: 407;
+  height: 70px;
+}
+
+.resp-iframe {
+  flex: 1;
+}
+
+a {
+  color: #4ea531;
+}
+
+.btn {
+  font-size: 14px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  padding: 14px 0px 14px 0px;
+  margin: 20px;
+  width: 160px;
+  border-radius: 5px;
+  color: white;
+  -webkit-appearance: none;
+}
+
+.update {
+  background-color: #fc9003;
+}
+
+.delete {
+  background-color: #f14c4c;
+}
+
+.create {
+  background-color: #83C36D;
+}
+
+.input {
+  display: inline-block;
+  width: 240px;
+  margin: 5px;
+  padding: 4px;
+}
+
+.label {
+  display: inline-block;
+  width: 120px;
+  margin: 5px;
+  padding: 4px;
+  text-align: right;
+}
+
+.divider {
+  color: #83C36D;
+}
+
+.left-aligned {
+  text-align: left;
+}
+
+h1 {
+  font-weight: 300;
+}
+
+h2 {
+  font-weight: 300;
+}
+
+h3 {
+  font-weight: 300;
+}
+
+h4 {
+  font-weight: 300;
+}
+
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+  text-align: center;
+}
+
+tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.form-group {
+  margin: 10px;
+}
+
+.extable {
+  width: 80%;
+  table-layout: fixed;
+  margin: auto;
+  margin-bottom: 20px;
+}
+
+td {
+  word-wrap:break-word;
+}
+
+.default {
+  background-color: rgb(255, 202, 182);
+}

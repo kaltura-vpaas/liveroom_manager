@@ -1,0 +1,175 @@
+<html>
+
+<head>
+  <link rel='stylesheet' href='/stylesheets/style.css'>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js" 
+  crossorigin="anonymous"></script>
+  <script type="text/javascript" src="_index.js" ></script>
+</head>
+
+<body>
+  <img src="/images/kaltura-logo.png" alt="Kaltura Logo">
+  <table id="roomTable" class="extable">
+    <thead>
+      <tr>
+        <th>Update</th>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Desc</th>
+        <th style="width:30%;">Tags</th>
+        <th>Admin 1</th>
+        <th>Admin 2</th>
+        <th>Guest</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% resources.forEach(function(room) { %>
+      <tr>
+        <td>
+          <input type="checkbox" id="<%=room.id%>">
+        <td><%=room.id%></td>
+        <td><%=room.name%></td>
+        <td><%=room.description%></td>
+        <td><%=room.tags%></td>
+        <td>
+          <a href="javascript:joinRoom(<%=room.id%>,'Admin','1','admin')">join</a></td>
+        <td>
+          <a href="javascript:joinRoom(<%=room.id%>,'Admin','2','admin')">join</a></td>
+        </td>
+        <td>
+          <a href="javascript:joinRoom(<%=room.id%>,'Guest','1','guest')">join</a>
+        </td>
+        <% }); %>
+      </tr>
+    </tbody>
+  </table>
+
+  <button onclick='updateRooms(false)'>Update Rooms</button>
+  <button onclick='updateRooms(true)'>delete rooms</button>
+
+  <h2>room creation</h2>
+
+  <form method='POST' action='/createroom'>
+    <div class="form-group">
+      <label for='name'>Room Name</label>
+      <input id="name" class="form-control" type='text' placeholder='room name' name='name'>
+    </div>
+    <div class="form-group">
+      <label for='description'>Description</label>
+      <input id="description" class="form-control" type='text' placeholder='room description' name='description'>
+    </div>
+    <div class="form-group">
+      <label for='tags'>Tags</label>
+      <textarea readonly id="tags" style="width:60%;height:80px;resize:none;" name='tags'>vcprovider:newrow</textarea>
+      <br>
+      <button type='submit'>Create</button>
+    </div>
+  </form>
+
+  <table class="extable">
+    <thead>
+      <tr>
+        <th style="width:40px;"></th>
+        <th>Key</th>
+        <th>Type</th>
+        <th>Default</th>
+        <th>Other</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="custom_rec_auto_start">
+        <td><input type="checkbox" onchange="onChanged('custom_rec_auto_start',0)"></td>
+        <td>custom_rec_auto_start</td>
+        <td>boolean</td>
+        <td class="default"><strong>0:</strong> Auto-start recording is disabled</td>
+        <td><strong>1:</strong> Start recording automatically when instructor joins. <strong>Note that session
+            recordings will be as long as the event duration.</strong></td>
+      </tr>
+      <tr id="custom_rec_set_reminder">
+        <td><input type="checkbox" onchange="onChanged('custom_rec_set_reminder',0)"></td>
+        <td>custom_rec_set_reminder</td>
+        <td>boolean</td>
+        <td class="default"><strong>0:</strong> Recording reminder is disabled</td>
+        <td><strong>1:</strong> Enable recording reminder prompt once instructor has been in the room for two minutes
+        </td>
+      </tr>
+      <tr id="custom_rs_show_participant">
+        <td><input type="checkbox" onchange="onChanged('custom_rs_show_participant',1)"></td>
+        <td>custom_rs_show_participant</td>
+        <td>boolean</td>
+        <td class="default"><strong>1:</strong> Show participant list for students and guests</td>
+        <td><strong>0:</strong> Hide participant list for students and guests</td>
+      </tr>
+      <tr id="custom_rs_show_invite">
+        <td><input type="checkbox" onchange="onChanged('custom_rs_show_invite',1)"></td>
+        <td>custom_rs_show_invite</td>
+        <td>boolean</td>
+        <td class="default"><strong>1:</strong> Show invite option for moderators and instructors</td>
+        <td><strong>0:</strong> Hide invite option for moderators and instructors</td>
+      </tr>
+      <tr id="custom_rs_show_chat">
+        <td><input type="checkbox" onchange="onChanged('custom_rs_show_chat',1)"></td>
+        <td>custom_rs_show_chat</td>
+        <td>boolean</td>
+        <td class="default"><strong>1:</strong> Enable chat for students and guests</td>
+        <td><strong>0:</strong> Disable chat for students and guests</td>
+      </tr>
+      <tr id="custom_rs_enable_guests_to_join">
+        <td><input type="checkbox" onchange="onChanged('custom_rs_enable_guests_to_join',1)"></td>
+        <td>custom_rs_enable_guests_to_join</td>
+        <td>boolean</td>
+        <td class="default"><strong>1:</strong> Enable guests to join with invite link</td>
+        <td><strong>0:</strong> Block guests from joining by invite link</td>
+      </tr>
+      <tr id="custom_rs_class_mode">
+        <td><input type="checkbox" onchange="onChanged('custom_rs_class_mode',['virtual_classroom','webinar'])"></td>
+        <td>custom_rs_class_mode</td>
+        <td>string</td>
+        <td class="default" ><strong>virtual_classroom:</strong> Set room to be in virtual meeting room mode, where users are
+          automatically set to Live and prompted to activate webcams</td>
+        <td><strong>webinar:</strong> Set room to webinar mode, where users are not live</td>
+      </tr>
+      <tr id="custom_rs_show_chat_moderators">
+        <td><input type="checkbox" onchange="onChanged('custom_rs_show_chat_moderators',1)"></td>
+        <td>custom_rs_show_chat_moderators</td>
+        <td>boolean</td>
+        <td class="default"><strong>1:</strong> Enable moderator chat</td>
+        <td><strong>0:</strong> Disable moderator chat</td>
+      </tr>
+      <tr id="custom_rs_show_chat_questions">
+        <td><input type="checkbox" onchange="onChanged('custom_rs_show_chat_questions',1)"></td>
+        <td>custom_rs_show_chat_questions</td>
+        <td>boolean</td>
+        <td class="default"><strong>1:</strong> Enable Q&amp;A for students and guests</td>
+        <td><strong>0:</strong> Disable Q&amp;A for students and guests</td>
+      </tr>
+      <tr id="custom_rs_show_language_selection">
+        <td><input type="checkbox" onchange="onChanged('custom_rs_show_language_selection',1)"></td>
+        <td>custom_rs_show_language_selection</td>
+        <td>boolean</td>
+        <td class="default"><strong>1:</strong> Show "Select Language" in options menu</td>
+        <td><strong>0:</strong> Hide "Select Language" in options menu</td>
+      </tr>
+      <tr id="custom_rs_enable_media_library">
+        <td><input type="checkbox" onchange="onChanged('custom_rs_enable_media_library',1)"></td>
+        <td>custom_rs_enable_media_library</td>
+        <td>boolean</td>
+        <td class="default"><strong>1:</strong> Show "Video Library" in tools</td>
+        <td><strong>0:</strong> Hide "Video Library" in tools</td>
+      </tr>
+      <tr id="custom_rs_hide_end_session">
+        <td><input type="checkbox" onchange="onChanged('custom_rs_hide_end_session',0)"></td>
+        <td>custom_rs_hide_end_session</td>
+        <td>boolean</td>
+        <td class="default"><strong>0:</strong> Show "End Session" button, which ends the session for all participants</td>
+        <td><strong>1:</strong> Hide "End Session" button</td>
+      </tr>
+      <tr id="custom_rs_hide_leave_session">
+        <td><input type="checkbox" onchange="onChanged('custom_rs_hide_leave_session',0)"></td>
+        <td>custom_rs_hide_leave_session</td>
+        <td>boolean</td>
+        <td class="default"><strong>0:</strong> Show "Leave Session" button, which ends the session for the user</td>
+        <td><strong>1:</strong> Hide "Leave Session" button</td>
+      </tr>
+    </tbody>
+  </table>
