@@ -10,9 +10,8 @@ router.get('/', function(req, res, next) {
   config.serviceUrl = process.env.KALTURA_SERVICE_URL;
   const client = new kaltura.Client(config);
   const apiSecret = process.env.KALTURA_ADMIN_SECRET;
-  const partnerId = process.env.KALTURA_PARTNER_ID
-  const expiry = process.env.LIVEROOM_SESSION_DURATION
-  const userId = process.env.KALTURA_USER_ID
+  const partnerId = process.env.KALTURA_PARTNER_ID;
+  const userId = process.env.KALTURA_USER_ID;
   const type = kaltura.enums.SessionType.USER;
 
   // Generate KS
