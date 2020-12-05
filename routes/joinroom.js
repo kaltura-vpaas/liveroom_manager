@@ -4,11 +4,11 @@ var router = express.Router();
 
 router.post('/', function(req, res, next) {
   const config = new kaltura.Configuration();
-  config.serviceUrl = req.app.get('kserviceUrl');
+  config.serviceUrl = process.env.KALTURA_SERVICE_URL;
   const client = new kaltura.Client(config);
-  const apiSecret = req.app.get('kapiSecret');
-  const partnerId = req.app.get('kpartnerId');
-  const expiry = req.app.get('ksessionDuration');
+  const apiSecret = process.env.KALTURA_ADMIN_SECRET;
+  const partnerId = process.env.KALTURA_PARTNER_ID
+  const expiry = process.env.LIVEROOM_SESSION_DURATION
   const type = kaltura.enums.SessionType.USER;
 
   let resourceId = req.body.resourceId;
