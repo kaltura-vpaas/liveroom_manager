@@ -12,3 +12,4 @@ KALTURA_PARTNER_ID=#obtained from https://kmc.kaltura.com/index.php/kmcng/settin
 KALTURA_USER_ID=#set it to the Kaltura user designated as admin. This is usually the email address you used to create your Kaltura account 
 LIVEROOM_SESSION_DURATION=86400
 ```
+4. npm start
