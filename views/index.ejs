@@ -4,15 +4,17 @@
   <link rel='stylesheet' href='/stylesheets/style.css'>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js" 
   crossorigin="anonymous"></script>
+  <script src="jquery.validate.min.js"></script>
   <script type="text/javascript" src="_index.js" ></script>
+
 </head>
 
-<body>
+<body >
   <img src="/images/kaltura-logo.png" alt="Kaltura Logo">
   <table id="roomTable" class="extable">
     <thead>
       <tr>
-        <th>Update</th>
+        <th style="width:70px;">Update</th>
         <th>ID</th>
         <th>Name</th>
         <th>Desc</th>
@@ -26,7 +28,7 @@
       <% resources.forEach(function(room) { %>
       <tr>
         <td>
-          <input type="checkbox" id="<%=room.id%>">
+          <input type="radio" name="roomToUpdate" id="<%=room.id%>">
         <td><%=room.id%></td>
         <td><%=room.name%></td>
         <td><%=room.description%></td>
@@ -44,12 +46,11 @@
     </tbody>
   </table>
 
-  <button onclick='updateRooms(false)'>Update Rooms</button>
-  <button onclick='updateRooms(true)'>delete rooms</button>
+
 
   <h2>room creation</h2>
 
-  <form method='POST' action='/createroom'>
+  <form id="createRoomForm" method='POST' action='/createroom'>
     <div class="form-group">
       <label for='name'>Room Name</label>
       <input id="name" class="form-control" type='text' placeholder='room name' name='name'>
@@ -62,10 +63,12 @@
       <label for='tags'>Tags</label>
       <textarea readonly id="tags" style="width:60%;height:80px;resize:none;" name='tags'>vcprovider:newrow</textarea>
       <br>
-      <button type='submit'>Create</button>
+      <button onclick="handleSubmit('create')">Create</button>
     </div>
   </form>
-
+  <button onclick="handleSubmit('update')">Update Room</button>
+  <button onclick="handleSubmit('delete')">Delete Room</button>
+<br><br>
   <table class="extable">
     <thead>
       <tr>

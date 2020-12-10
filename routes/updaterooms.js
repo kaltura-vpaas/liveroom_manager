@@ -2,7 +2,7 @@ var express = require('express');
 var kaltura = require('kaltura-client');
 var router = express.Router();
 
-router.post('/', function(req, res, next) {
+router.post('/', function (req, res, next) {
   const config = new kaltura.Configuration();
   config.serviceUrl = process.env.KALTURA_SERVICE_URL;
   const client = new kaltura.Client(config);
@@ -17,49 +17,42 @@ router.post('/', function(req, res, next) {
     userId,
     type,
     partnerId)
-  .completion((success, ks) => {
-    if (!success) throw new Error(ks.message);
-    client.setKs(ks);
-
-    var scheduleResource = new kaltura.objects.LocationScheduleResource();
-    var rooms = JSON.parse(req.body.rooms);
-    var arrayLength = rooms.updatedRooms.length;
-    var numUpdatedRooms = 0;
-
-    // Update the rooms
-    for (var i = 0; i < arrayLength; i++) {
-      console.log(rooms.updatedRooms[i]);
-      scheduleResource.name = rooms.updatedRooms[i].name;
-      scheduleResource.description = rooms.updatedRooms[i].description;
-      scheduleResource.tags = rooms.updatedRooms[i].tags;
+    .completion((success, ks) => {
+      if (!success) throw new Error(ks.message);
+      client.setKs(ks);
+      var room = JSON.parse(req.body.room);
+      var scheduleResource = new kaltura.objects.LocationScheduleResource();
+      scheduleResource.name = room.name;
+      scheduleResource.description = room.desc;
+      scheduleResource.tags = room.tags;
 
       // Either update or delete the rooms
       if (req.body.delete) {
-        kaltura.services.scheduleResource.deleteAction(rooms.updatedRooms[i].id)
-        .execute(client)
-        .then(result => {
-          console.log(result);
-
-          // Send response after all rooms have completed deletion
-          if (++numUpdatedRooms === arrayLength) {
-            res.end();
-          }
-        });
+        try {
+          kaltura.services.scheduleResource.deleteAction(room.roomToUpdate)
+            .execute(client)
+            .then(result => {
+              console.log(result);
+              res.end();
+            });
+        } catch (error) {
+          console.log(error);
+        }
       } else {
-        kaltura.services.scheduleResource.update(rooms.updatedRooms[i].id, scheduleResource)
-        .execute(client)
-        .then(result => {
-          console.log(result);
-
-          // Send response after all rooms have completed updating
-          if (++numUpdatedRooms === arrayLength) {
-            res.end();
-          }
-        });
+        try {
+          kaltura.services.scheduleResource.update(room.roomToUpdate, scheduleResource)
+            .execute(client)
+            .then(result => {
+              console.log(result);
+              res.end();
+            });
+        } catch (error) {
+          console.log(error);
+        }
       }
-    }
-  })
-  .execute(client);
+
+    })
+    .execute(client);
 });
 
 module.exports = router;

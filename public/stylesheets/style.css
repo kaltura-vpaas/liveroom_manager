@@ -110,6 +110,7 @@ tr:nth-child(even) {
 
 td {
   word-wrap:break-word;
+  padding:5px;
 }
 
 .default {

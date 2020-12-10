@@ -1,3 +1,29 @@
+function handleSubmit(action) {
+    if (action=='delete') {
+        updateRooms(true);
+        return
+    }
+    var validator = $("#createRoomForm").validate({
+        rules: {
+            name: {
+                required: true,
+                minlength: 1
+            },
+            description: {
+                required: true,
+                minlength: 1
+            }
+        }
+    });
+    if(validator.form()) {
+        if(action == 'create'){
+            $('#createRoomForm').submit();
+        } else if (action=='update') {
+            updateRooms(false);
+        } 
+    }
+   
+}
 function joinRoom(resourceId, firstName, lastName, role) {
     // Send POST to /joinroom
     var xhr = new XMLHttpRequest();
@@ -18,38 +44,12 @@ function joinRoom(resourceId, firstName, lastName, role) {
 }
 
 function updateRooms(bDeleteRooms) {
-    var checkedRows = [];
-    var headersText = [];
-    var headers = $("th");
-    var keys = ["", "id", "name", "description", "tags"];
-
-    // Loop through the rows and add the checked ones to checkedRows
-    var rowNumber = 0;
-    $("#roomTable tr").each(function(index) {
-      var cells = $(this).find("td");
-      //console.log("row " + index + " checked: " + document.getElementById($cells[1].innerText).checked);
-
-      if(cells.length == 0){
-          return;
-      }
-      // Add row if checkbox is checked
-      if (document.getElementById(cells[1].innerText).checked) {
-        checkedRows[rowNumber] = {};
-
-        cells.each(function(cellIndex) {
-          if (cellIndex > 0 && cellIndex < 5) {
-            // Update the row object with the key/cell combo
-            checkedRows[rowNumber][keys[cellIndex]] = $(this).text();
-          }
-        });
-        console.log(checkedRows[rowNumber]);
-        ++rowNumber;
-      }
-    });
-
-    // Convert checkedRows to JSON
-    var checkedRowsJson = JSON.stringify( { "updatedRooms": checkedRows } );
-    //alert(checkedRowsJson);
+    var checkedRowsJson = JSON.stringify( 
+        { "roomToUpdate": $('input[name=roomToUpdate]:checked').attr('id'), 
+          "name": $('#name').val(),
+          "desc": $('#description').val(),
+          "tags": $('#tags').val()
+    } );
 
     // Send POST to /updaterooms and reload page when updates complete
     var xhr = new XMLHttpRequest();
@@ -61,7 +61,7 @@ function updateRooms(bDeleteRooms) {
       }
     }
     xhr.send(JSON.stringify({
-        rooms: checkedRowsJson,
+        room: checkedRowsJson,
         delete: bDeleteRooms
     }));
   }
